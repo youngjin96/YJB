@@ -7,25 +7,28 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedIn(true);
+        console.log(user.uid);
       } else {
         setLoggedIn(false);
       }
     })
   }, []);
-  const clickLogout = () => {
+  const onClickLogout = () => {
     signOut(auth).then(() => {
       window.location.replace("Home");
     }).catch((error) => {
       alert(error.message);
     });
   };
+
   return (
     <div>
-      <Button color="secondary" variant="text">
+      <Button variant="text">
         <Link to="/home" style={{ textDecoration: 'none', textTransform: 'none', color:"black" }}>
           Home
         </Link>
@@ -36,9 +39,16 @@ const App = () => {
         </Link>
       </Button>
       {isLoggedIn ? (
-        <Button onClick={clickLogout} variant="text" style={{ float: 'right', textTransform: 'none', color:"black" }}>
-          Logout
-        </Button>
+        <span>
+          <Button onClick={onClickLogout} variant="text" style={{ float: 'right', textTransform: 'none', color:"black" }}>
+            Logout
+          </Button>
+          <Button style={{ float:"right" }}>
+            <Link to="/mypage" style={{ textDecoration: 'none', textTransform: 'none', color:"black" }}>
+              My Page
+            </Link>
+          </Button>
+        </span>
       ) : (
           <Button variant="text" style={{ float: 'right' }}>
             <Link to="/auth" style={{ textDecoration: 'none', textTransform: 'none', color:"black" }}>
@@ -46,11 +56,6 @@ const App = () => {
             </Link>
           </Button>
         )}
-        <Button style={{ float:"right" }}>
-          <Link to="/mypage" style={{ textDecoration: 'none', textTransform: 'none', color:"black" }}>
-            My Page
-          </Link>
-        </Button>
       <div>
         <Router />
       </div>

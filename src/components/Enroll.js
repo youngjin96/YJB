@@ -23,7 +23,7 @@ const Enroll = () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             alert("정상적으로 회원가입이 완료되었습니다.")
-            window.location.replace("Auth");
+            window.location.replace("Home");
         } catch(error){
             alert(error.message);
         }
